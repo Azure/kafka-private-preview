@@ -1,33 +1,48 @@
-# Project
+# Kafka Input and Output Private Preview
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+You can connect an Azure Stream Analytics job directly to Kafka clusters to ingest natively and output data. The solution is low code and entirely managed by the Azure Stream Analytics team at Microsoft, allowing it to meet business compliance standards. The Kafka Adapters are backward compatible and support all Kafka versions with the latest client release. Users can connect to Kafka clusters inside a VNET and Kafka clusters with a public endpoint depending on the configurations. The configuration relies on existing Kafka configuration conventions. 
 
-As the maintainer of this project, please make a few updates:
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Authentication and Encryption 
 
-## Contributing
+Azure Stream Analytics supports four types of security protocols to connect to your Kafka setup: 
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+1. mTLS or SSL/TLS – encryption and authentication (recommended). 
+2. SASL_SSL – It combines two different security mechanisms - SASL (Simple Authentication and Security Layer) and SSL (Secure Sockets Layer) - to ensure both authentication and encryption are in place for data transmission. 
+3.SASL_PLAINTEXT – standard authentication with username and password. 
+4.None – No authentication or encryption. Recommended only for testing. 
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Key Vault Integration 
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+Note: To use mTLS or SASL_SSL security protocols, you must have Azure KeyVault and managed identity configured for your Azure Stream Analytics job. 
 
-## Trademarks
+Azure Stream Analytics integrates seamlessly with Azure Key Vault to access stored secrets needed for authentication and encryption when using mTLS or SASL_SSL security protocols. Your Azure Stream Analytics job connects to Azure Key Vault using managed identity to ensure secure connection and avoid exfiltration of secrets. 
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+You can store the certificates as Key Vault certificate or Key Vault secret. Private keys are in PEM format. 
+Please visit the following to learn how to upload secrets to Azure Key Vault: [Store a multiline secret in Azure Key Vault](https://learn.microsoft.com/azure/key-vault/secrets/multiline-secrets)
+
+
+## VNET Configuration 
+
+When configuring your Azure Stream Analytics job to connect to your Kafka clusters, depending on your configuration, you may have to configure your job to be able to access your Kafka clusters which are behind a firewall or inside a virtual network.  Please visit the ASA VNET documentation to learn more about configuring private endpoints to access resources which are inside a virtual network or behind a firewall. 
+
+## Configuration 
+
+The following table lists the property names and their description for creating a Kafka Input or Output: 
+| Property name                | Description                                                                                                             |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Input/Outut Alias            | A friendly name used in queries to reference your input or output                                                       |
+| Bootstrap server addresses   | A list of host/port pairs to use for establishing the connection to the Kafka cluster.                                  |
+| Kafka topic                  | A unit of your Kafka cluster you want to write events to.                                                               |
+| Security Protocol            | How you want to connect to your Kafka cluster. Azure Stream Analytics supports: mTLS, SASL_SSL, SASL_PLAINTEXT or None. |
+| Event Serialization format   | The serialization format (JSON, CSV, Avro, Parquet) of the incoming data stream.                                        |
+| Partition key                | Azure Stream Analytics assigns partitions using round partitioning.                                                     |
+| Kafka event compression type | The compression type used for outgoing data stream, such as Gzip, Snappy, Lz4, Zstd or None.                            |
+
+## Limitations
+
+* When configuring your Azure Stream Analytics jobs to use VNET/SWIFT, your job must be configured with a minimum of six (6) streaming units. 
+* When using mTLS or SASL_SSL with Azure Key Vault, you must convert your Java Key Store to PEM format. 
+* Sample data is not supported currently for all modes except None and SASL_PLAINTEXT 
+* The minimum version of Kafka you can configure Azure Stream Analytics to connect to is version 0.10. 
+
