@@ -9,8 +9,8 @@ Azure Stream Analytics supports four types of security protocols to connect to y
 
 1. mTLS or SSL/TLS – encryption and authentication (recommended). 
 2. SASL_SSL – It combines two different security mechanisms - SASL (Simple Authentication and Security Layer) and SSL (Secure Sockets Layer) - to ensure both authentication and encryption are in place for data transmission. 
-3.SASL_PLAINTEXT – standard authentication with username and password. 
-4.None – No authentication or encryption. Recommended only for testing. 
+3. SASL_PLAINTEXT – standard authentication with username and password. 
+4. None – No authentication or encryption. Recommended only for testing. 
 
 ## Key Vault Integration 
 
