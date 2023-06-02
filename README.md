@@ -1,6 +1,6 @@
 # Kafka Input and Output Private Preview
 
-You can connect an Azure Stream Analytics job directly to Kafka clusters to ingest natively and output data. The solution is low code and entirely managed by the Azure Stream Analytics team at Microsoft, allowing it to meet business compliance standards. The Kafka Adapters are backward compatible and support all Kafka versions with the latest client release. Users can connect to Kafka clusters inside a VNET and Kafka clusters with a public endpoint depending on the configurations. The configuration relies on existing Kafka configuration conventions. 
+You can connect an Azure Stream Analytics job directly to Kafka clusters to ingest natively and output data. The solution is low code and entirely managed by the Azure Stream Analytics team at Microsoft, allowing it to meet business compliance standards. The Kafka Adapters are backward compatible and support all Kafka versions with the latest client release starting from version 0.10. Users can connect to Kafka clusters inside a VNET and Kafka clusters with a public endpoint depending on the configurations. The configuration relies on existing Kafka configuration conventions. 
 
 
 ## Authentication and Encryption 
