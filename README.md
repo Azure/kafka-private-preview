@@ -31,7 +31,7 @@ When configuring your Azure Stream Analytics job to connect to your Kafka cluste
 The following table lists the property names and their description for creating a Kafka Input or Output: 
 | Property name                | Description                                                                                                             |
 |------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Input/Outut Alias            | A friendly name used in queries to reference your input or output                                                       |
+| Input/Output Alias            | A friendly name used in queries to reference your input or output                                                       |
 | Bootstrap server addresses   | A list of host/port pairs to use for establishing the connection to the Kafka cluster.                                  |
 | Kafka topic                  | A unit of your Kafka cluster you want to write events to.                                                               |
 | Security Protocol            | How you want to connect to your Kafka cluster. Azure Stream Analytics supports: mTLS, SASL_SSL, SASL_PLAINTEXT or None. |
